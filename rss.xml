@@ -1,1 +1,82 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Bas1c Starter Blog RSS Feed]]></title><description><![CDATA[Un lugar donde publico distintas cosas.]]></description><link>https://bas1ctf.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Thu, 23 Jun 2022 06:10:57 GMT</lastBuildDate><item><title><![CDATA[En construcción]]></title><description><![CDATA[Hola, no hay nada por el momento]]></description><link>https://bas1ctf.github.io/hello-world/</link><guid isPermaLink="false">https://bas1ctf.github.io/hello-world/</guid><pubDate>Thu, 23 Jun 2022 22:12:03 GMT</pubDate><content:encoded>&lt;h1&gt;Hola, no hay nada por el momento&lt;/h1&gt;</content:encoded></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Bas1c Starter Blog RSS Feed]]></title><description><![CDATA[Un lugar donde publico distintas cosas.]]></description><link>https://bas1ctf.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 24 Jun 2022 04:22:52 GMT</lastBuildDate><item><title><![CDATA[Notas Regex]]></title><description><![CDATA[Cualquier dígito Se puede usar  para indicar que se trata de cualquier dígito entre 0-9. Para descartar cualquier dígito se usa . Cualquier…]]></description><link>https://bas1ctf.github.io/hello-world/</link><guid isPermaLink="false">https://bas1ctf.github.io/hello-world/</guid><pubDate>Thu, 23 Jun 2022 23:17:03 GMT</pubDate><content:encoded>&lt;h4&gt;Cualquier dígito&lt;/h4&gt;
+&lt;p&gt;Se puede usar &lt;code class=&quot;language-text&quot;&gt;\d&lt;/code&gt; para indicar que se trata de cualquier dígito entre 0-9. Para descartar cualquier dígito se usa &lt;code class=&quot;language-text&quot;&gt;\D&lt;/code&gt;.&lt;/p&gt;
+&lt;h4&gt;Cualquier caracter&lt;/h4&gt;
+&lt;p&gt;El &lt;code class=&quot;language-text&quot;&gt;.&lt;/code&gt; (punto), se usa como comodín para indicar que se trata de cualquier caracter, solo indica una posición, para utilizar el punto se necesita escapar con &lt;code class=&quot;language-text&quot;&gt;\.&lt;/code&gt;.&lt;/p&gt;
+&lt;h4&gt;Solo [abc]&lt;/h4&gt;
+&lt;p&gt;Poner caracteres entre corchetes nos permite hacer match con solo un caracter de los que vienen dentro del corchete, por ejemplo, &lt;code class=&quot;language-text&quot;&gt;[abc]&lt;/code&gt;an da match con la palabra dan y la palabra ban, pero no con rei.
+Cuando queremos descartar algunos caracteres utilizamos la siguiente expresión &lt;code class=&quot;language-text&quot;&gt;[^abc]&lt;/code&gt; en este caso cualquier palabra que no contenga alguna de los caracteres dentro del corchete es incluida.&lt;/p&gt;
+&lt;h4&gt;Rangos&lt;/h4&gt;
+&lt;p&gt;También es posible utilizar rangos los cuales distinguen entre mayusculas y minusculas por ejemplo: &lt;code class=&quot;language-text&quot;&gt;[A-Z]&lt;/code&gt; que da match con cualquier mayuscula entre A y Z, &lt;code class=&quot;language-text&quot;&gt;[a-n]&lt;/code&gt; da match con cualquier minuscula entre a y n, y &lt;code class=&quot;language-text&quot;&gt;[0-9]&lt;/code&gt; da match con cualquier número entre 0 y 9. Para cualquier rango alfanúmerico se utiliza &lt;code class=&quot;language-text&quot;&gt;\w&lt;/code&gt; el cual es lo mismo que &lt;code class=&quot;language-text&quot;&gt;[A-Za-z0-9]&lt;/code&gt;. Para cualquier no alfanúmerico se utiliza &lt;code class=&quot;language-text&quot;&gt;\W&lt;/code&gt;.&lt;/p&gt;
+&lt;h4&gt;Repeticiones&lt;/h4&gt;
+&lt;p&gt;Para una repiticón de caracteres utilizamos &lt;code class=&quot;language-text&quot;&gt;a{5}&lt;/code&gt;, la cual realiza match con ‘waaaaa’. Para establecer rangos usamos &lt;code class=&quot;language-text&quot;&gt;a{1,5}&lt;/code&gt; el cual hace match con ‘wa’ y ‘waaaaa’. Es posible combinar con &lt;code class=&quot;language-text&quot;&gt;[abc]{5}&lt;/code&gt; el cual hace match con ‘waaaaa’, ‘wbbbbb’ y ‘wabcba’.&lt;/p&gt;
+&lt;h4&gt;Kleene&lt;/h4&gt;
+&lt;p&gt;Para realizar match con varios caracteres tenemos la estrella de Kleene y Kleene +, el primero realiza match con cualquier cantidad del patron que le precede, incluso si la cantidad es 0, por ejemplo, si tenemos &lt;code class=&quot;language-text&quot;&gt;a*bc&lt;/code&gt;, realiza match con ‘bc’, ‘abc’, ‘aaabc’.
+Por el otro lado Kleene +, hace lo mismo pero con la condición de que debe haber al menos un elemento, por ejemplo, si tenemos &lt;code class=&quot;language-text&quot;&gt;a+bc&lt;/code&gt;, realiza match con ‘abc’, ‘aabc’, ‘aaaabc’, pero no con ‘bc’.&lt;/p&gt;
+&lt;h4&gt;Opcionalidad&lt;/h4&gt;
+&lt;p&gt;Cuando se quiere poner un caracter opcional se usa &lt;code class=&quot;language-text&quot;&gt;?&lt;/code&gt;, si se quiere utilizar el simbolo se escapa de la siguiente forma &lt;code class=&quot;language-text&quot;&gt;\?&lt;/code&gt;. Ejemplo: &lt;code class=&quot;language-text&quot;&gt;ab?c&lt;/code&gt;, va a dar match con ‘abc’ y ‘ac’.&lt;/p&gt;
+&lt;h4&gt;Cualquier espacio&lt;/h4&gt;
+&lt;p&gt;Las formas más comunes de espacios son el &lt;em&gt;espacio&lt;/em&gt; &lt;code class=&quot;language-text&quot;&gt;..&lt;/code&gt;, el &lt;em&gt;tabulador&lt;/em&gt; &lt;code class=&quot;language-text&quot;&gt;\t&lt;/code&gt;, línea nueva &lt;code class=&quot;language-text&quot;&gt;\n&lt;/code&gt;, y el retorno de carro &lt;code class=&quot;language-text&quot;&gt;\r&lt;/code&gt;, pero existe un caracter que engloba todos los tipos de espacio anteriores: el caracter &lt;code class=&quot;language-text&quot;&gt;\s&lt;/code&gt;. Para cualquier caracter que no sea un espacio se usa &lt;code class=&quot;language-text&quot;&gt;\S&lt;/code&gt;.&lt;/p&gt;
+&lt;h4&gt;Inicio y fin&lt;/h4&gt;
+&lt;p&gt;Para indicar cuando empieza una cadena utilizamos el caracter &lt;code class=&quot;language-text&quot;&gt;^&lt;/code&gt;, si queremos indicar el fin de la cadena lo indicamos con &lt;code class=&quot;language-text&quot;&gt;$&lt;/code&gt;, de este modo para hacer match con una cadena especifica como ‘Hola mundo’, utilizamos &lt;code class=&quot;language-text&quot;&gt;^Hola mundo$&lt;/code&gt;.&lt;/p&gt;
+&lt;h4&gt;Grupos&lt;/h4&gt;
+&lt;p&gt;Para obtener información que después pueda ser analizada más a detalle. Esto se logra hacer colocando una expresión dentro de paréntesis &lt;code class=&quot;language-text&quot;&gt;()&lt;/code&gt;, esta expresión va a ser capturada como un grupo.&lt;/p&gt;
+&lt;h4&gt;Subgrupos&lt;/h4&gt;
+&lt;p&gt;También es posible dividir en subgrupos, un grupo. Esto se realiza colocando una expresión entre paréntesis dentro de un grupo limitado entre paréntesis, &lt;code class=&quot;language-text&quot;&gt;(PATTERN(PATTERN))&lt;/code&gt;.&lt;/p&gt;
+&lt;h4&gt;OR&lt;/h4&gt;
+&lt;p&gt;Cuando tenemos dos o más cadenas específicas que puedan venir utilizamos el operador lógico or &lt;code class=&quot;language-text&quot;&gt;|&lt;/code&gt;, por ejemplo, &lt;code class=&quot;language-text&quot;&gt;I love (cats|dogs)&lt;/code&gt;, el cual realiza match con ‘I love cats’ y con ‘I love dogs’.&lt;/p&gt;
+&lt;h3&gt;Source&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://regexone.com/&quot;&gt;RegexOne - Learn Regular Expressions - Lesson 1: An Introduction, and the ABCs&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Comandos Git]]></title><description><![CDATA[Vincular Git Para conectar correctamente es necesario tener configurado Git; Se establece un nombre con  Se establece el correo:  El correo…]]></description><link>https://bas1ctf.github.io/comandos-git/</link><guid isPermaLink="false">https://bas1ctf.github.io/comandos-git/</guid><pubDate>Thu, 23 Jun 2022 23:06:03 GMT</pubDate><content:encoded>&lt;h3&gt;Vincular Git&lt;/h3&gt;
+&lt;p&gt;Para conectar correctamente es necesario tener configurado Git;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Se establece un nombre con &lt;code class=&quot;language-text&quot;&gt;git config --global user.name &quot;Nombre&quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Se establece el correo: &lt;code class=&quot;language-text&quot;&gt;git config --global user.email &quot;email@email.com&quot;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;El correo tiene que ser el mismo utilizado en la cuenta Github o Gitlab.
+Para enlazar Git con una cuenta de Github o Gitlab solo busca como enlazar con SSH, las instrucciones pueden cambiar y nada mejor que buscar la documentación oficial.&lt;/p&gt;
+&lt;h3&gt;Primer push&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git init&lt;/code&gt; - Para preparar una carpeta como repositorio git.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git add PathArchivo&lt;/code&gt; - Agregar un archivo o archivos al stage, listos para hacer commit.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git status&lt;/code&gt; - Vemos el status del repositorio.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git diff&lt;/code&gt; - Muestra los cambios en el repositorio.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git commit -m &quot;Mensaje&quot;&lt;/code&gt; - Guarda el estado actual del repositorio, la bandera -m permite agregar un mensaje desde consola si no se incluye la bandera, abre el editor (vim). &lt;code class=&quot;language-text&quot;&gt;:wq xd&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git log --oneline&lt;/code&gt; - Despliega los commits que se han realizado&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Al crear un nuevo repositorio en Github, nos da los comandos para conectar Git al repositorio remoto.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git push -u origin main&lt;/code&gt; - Guardar el repositorio local en el repositorio remoto.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Revertir cambios&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git checkout -- NombreArchivo&lt;/code&gt; - Revertir los cambios que no han sido añadidos al stage (estar listos para un commit).&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git reset HEAD NombreArchivo&lt;/code&gt; - Reestablece los cambios al último commit, luego se usa el comando checkout.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git reset HashCommit&lt;/code&gt; - Se reestablece a la versión de commit señalada (hash).&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git restore NombreArchivo&lt;/code&gt; - Reestablecemos el archivo después de usar el comando anterior.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git reset --hard HashCommit&lt;/code&gt; - Lo mismo de los dos comandos anteriores. No se recomiendan mucho. No es una buena práctica.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git revert HEAD&lt;/code&gt; - Reestablece al penúltimo commit, solo salir de vim.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Revertir dos commits hechos por error.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;$ git revert --no-commit HEAD
+$ git revert --no-commit HEAD~1
+$ git revert --continue&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;Ramas&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git branch&lt;/code&gt; - Enlista las ramas existentes.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git branch NombreRama&lt;/code&gt; - Crea una nueva rama.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git checkout -b NombreRama&lt;/code&gt; - Crea una nueva rama y nos cambiamos a ella.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git branch -m NombreRama NuevoNombre&lt;/code&gt; - Renombra una rama.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git branch -d NombreRama&lt;/code&gt; - Elimina una rama.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git branch -c NombreRama NuevaRama&lt;/code&gt; - Copiar una rama.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git branch -h&lt;/code&gt; - Enlista todas las opciones del comando.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git checkout NombreRama&lt;/code&gt; - Cambiar a la rama indicada.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git diff NombreRama1 NombreRama2&lt;/code&gt; - Compara dos ramas.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git merge NombreRama1 NombreRama2&lt;/code&gt; - Añade todo lo de la rama 1 a la rama 2.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git log --oneline --graph --all&lt;/code&gt; - Nos permite ver todos los commit.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Push &amp;#x26; Pull&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git push origin NombreRama&lt;/code&gt; - Sincronizar el repositorio remoto con los cambios del repositorio local.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git pull origin NombreRama&lt;/code&gt; - Obtener los cambios de la rama indicada del repositorio remoto. Realiza un merge entre la rama en la que nos localizamos y la que obtenemos.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git clone&lt;/code&gt; - Descargar un repositorio, solo se descarga la rama principal.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git push origin HEAD:main&lt;/code&gt; - Realizar un push desde una rama remota.&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item></channel></rss>

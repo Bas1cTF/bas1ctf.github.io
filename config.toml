@@ -1,4 +1,4 @@
-baseURL = "http://example.org/"
+baseURL = "http://bas1ctf.github.io/"
 defaultContentLanguage = "es"
 languageCode = "en"
 
@@ -50,18 +50,18 @@ enableRobotsTXT = true
     pre = "<span data-feather='github'></span>"
 [params]
   # URL for the avatar on homepage
-  avatarURL = "/avatar.jpg"
+  avatarURL = "/images/avatar.jpg"
 
   # Choose one of size-xs, size-s, size-m, size-l & size-xl. (Default: size-m)
-  avatarSize = ""
+  avatarSize = "size-m"
 
   # Description to display on homepage
-  description = "wannabe CTF Player | Personal Blog"
+  description = "wannabe | CTF Player"
 
   # Accent color is displayed when you hover over <a> tags
   accentColor = "#FF4D4D"
 
- socialIcons = [
+  socialIcons = [
       {name = "twitter", url = "https://twitter.com/Bas1cTF"},
       {name = "hackthebox", url = "https://app.hackthebox.com/profile/467628"},
       {name = "ctftime", url = "https://ctftime.org/user/137143"},
@@ -70,10 +70,7 @@ enableRobotsTXT = true
   # Keywords relevant for SEO
   metaKeywords = ["Bas1cTF", "HTB", "writeup"]
 
-  # If you want to display posts on the homepage, the options are
-  # "popular" (order posts by weight), "recent" (order posts by date)
-  # or "" (do not display, default option)
   # showPostsOnHomePage = "recent"
 
   # Footer text
-  footer = ""
+  footer = "YmFzMWNU"

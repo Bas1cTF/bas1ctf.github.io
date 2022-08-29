@@ -14,30 +14,21 @@ enableRobotsTXT = true
   [[menu.main]]
     identifier = "Home"
     pre = "<span data-feather='home'></span>"
+    name = "Home"
     url = "/"
     weight = 1
 
   [[menu.main]]
-    # Unique identifier for a menu item
     identifier = "posts"
-
     url = "/posts/"
-    
-    # You can add extra information before the name (HTML format is supported), such as icons
-    pre = ""
-
-    # You can add extra information after the name (HTML format is supported), such as icons
-    post = ""
-
-    # Display name
+    pre = "<span data-feather='book'></span>"
     name = "Posts"
-
-    # Weights are used to determine the ordering
     weight = 1
 
   [[menu.main]]
     identifier = "tags"
     name = "Tags"
+    pre = "<span data-feather='tag'></span>"
     url = "/tags/"
     weight = 2
     
@@ -45,7 +36,6 @@ enableRobotsTXT = true
     identifier = "github"
     url = "https://github.com/Bas1cTF"
     weight = 3
-    
     # We use feather-icons: https://feathericons.com/
     pre = "<span data-feather='github'></span>"
 [params]
@@ -74,3 +64,8 @@ enableRobotsTXT = true
 
   # Footer text
   footer = "YmFzMWNU"
+[markup]
+  [markup.tableOfContents]
+    startLevel = 1
+    endLevel = 4
+    ordered = false

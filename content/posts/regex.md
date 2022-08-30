@@ -4,6 +4,7 @@ date: 2022-08-28
 description: "Cheatsheet de expresiones regulares."
 type: "post"
 tags: ["CheatSheets"]
+showTableOfContents: true
 ---
 
 #### Cualquier dígito

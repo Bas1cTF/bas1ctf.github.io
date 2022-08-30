@@ -3,7 +3,8 @@ title: "Git"
 date: 2022-08-28T17:10:52-05:00
 description: ""
 type: "post"
-tags: ["cheatsheets"]
+tags: ["CheatSheets"]
+showTableOfContents: true
 ---
 ### Vincular Git
 Para conectar correctamente es necesario tener configurado Git;

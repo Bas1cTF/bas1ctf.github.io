@@ -4,5 +4,6 @@ date: {{ .Date }}
 description: ""
 type: "post"
 tags: []
+showTableOfContents: true
 ---
 

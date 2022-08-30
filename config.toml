@@ -3,10 +3,7 @@ defaultContentLanguage = "es"
 languageCode = "en"
 
 title = "Bas1cTF"
-
 theme = "gokarna"
-
-# Automatically generate robots.txt
 enableRobotsTXT = true
 
 [menu]
@@ -36,34 +33,21 @@ enableRobotsTXT = true
     identifier = "github"
     url = "https://github.com/Bas1cTF"
     weight = 3
-    # We use feather-icons: https://feathericons.com/
     pre = "<span data-feather='github'></span>"
+
 [params]
-  # URL for the avatar on homepage
   avatarURL = "/images/avatar.jpg"
-
-  # Choose one of size-xs, size-s, size-m, size-l & size-xl. (Default: size-m)
   avatarSize = "size-m"
-
-  # Description to display on homepage
-  description = "wannabe | CTF Player"
-
-  # Accent color is displayed when you hover over <a> tags
-  accentColor = "#FF4D4D"
-
+  description = "| Student | CTF Player |"
+  accentColor = "#D9389C"
   socialIcons = [
       {name = "twitter", url = "https://twitter.com/Bas1cTF"},
       {name = "hackthebox", url = "https://app.hackthebox.com/profile/467628"},
       {name = "ctftime", url = "https://ctftime.org/user/137143"},
     ]
-
-  # Keywords relevant for SEO
   metaKeywords = ["Bas1cTF", "HTB", "writeup"]
-
-  # showPostsOnHomePage = "recent"
-
-  # Footer text
-  footer = "YmFzMWNU"
+  #showPostsOnHomePage = "recent"
+  footer = "SSBsb3ZlIHlvdTwz"
 [markup]
   [markup.tableOfContents]
     startLevel = 1

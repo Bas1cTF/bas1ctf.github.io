@@ -1,5 +1,5 @@
 baseURL = "https://bas1ctf.github.io/"
-defaultContentLanguage = "es"
+defaultContentLanguage = "en"
 languageCode = "en"
 
 title = "Bas1cTF"
@@ -20,23 +20,23 @@ enableRobotsTXT = true
     url = "/posts/"
     pre = "<span data-feather='book'></span>"
     name = "Posts"
-    weight = 1
+    weight = 2
 
   [[menu.main]]
     identifier = "tags"
     name = "Tags"
     pre = "<span data-feather='tag'></span>"
     url = "/tags/"
-    weight = 2
+    weight = 3
     
   [[menu.main]]
     identifier = "github"
     url = "https://github.com/Bas1cTF"
-    weight = 3
+    weight = 4
     pre = "<span data-feather='github'></span>"
 
 [params]
-  avatarURL = "/images/avatar.jpg"
+  avatarURL = "/images/ghost.png"
   avatarSize = "size-m"
   description = "| Student | CTF Player |"
   accentColor = "#D9389C"

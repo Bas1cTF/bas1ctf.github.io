@@ -2,7 +2,7 @@ baseURL = "https://bas1ctf.github.io/"
 defaultContentLanguage = "en"
 languageCode = "en"
 
-title = "Bas1cTF"
+title = "Bas1c"
 theme = "gokarna"
 enableRobotsTXT = true
 
@@ -38,14 +38,14 @@ enableRobotsTXT = true
 [params]
   avatarURL = "/images/ghost.png"
   avatarSize = "size-m"
-  description = "| Student | CTF Player |"
+  description = ".::CTF PLAYER::."
   accentColor = "#D9389C"
   socialIcons = [
       {name = "twitter", url = "https://twitter.com/Bas1cTF"},
       {name = "hackthebox", url = "https://app.hackthebox.com/profile/467628"},
       {name = "ctftime", url = "https://ctftime.org/user/137143"},
     ]
-  metaKeywords = ["Bas1cTF", "HTB", "writeup"]
+  metaKeywords = ["Bas1c", "HTB", "writeup"]
   #showPostsOnHomePage = "recent"
   footer = "SSBsb3ZlIHlvdTwz"
 [markup]
